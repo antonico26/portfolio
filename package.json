@@ -1,0 +1,10 @@
+{
+  "name": "antonio-hidalgo-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Entorno local de pruebas para el portfolio estatico de Antonio Hidalgo Vicente.",
+  "scripts": {
+    "dev": "node tools/dev-server.js",
+    "check": "node --check script.js"
+  }
+}
