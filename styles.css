@@ -90,3 +90,8 @@ p { margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1.05rem; }
     .top-nav { justify-content: center; gap: 1rem; }
     .content-box { padding: 1.5rem; }
 }
+/* --- ESTILOS DE IMÁGENES --- */
+.profile-img { width: 100%; max-width: 250px; height: auto; border-radius: 8px; margin: 1rem 0 2rem 0; display: block; border: 1px solid #444; }
+.project-logo { width: 100%; max-width: 200px; height: auto; margin: 1rem 0 2rem 0; display: block; }
+.project-gallery { display: flex; gap: 1rem; margin: 1.5rem 0 2rem 0; flex-wrap: wrap; }
+.project-img { width: calc(50% - 0.5rem); min-width: 250px; height: auto; border-radius: 4px; object-fit: cover; border: 1px solid #333; }
