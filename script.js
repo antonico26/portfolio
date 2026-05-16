@@ -1,49 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Lógica de la Portada (Landing Page)
-    const landingHero = document.getElementById('landing-hero');
-    const startBtn = document.getElementById('start-btn');
-    const hiddenElements = document.querySelectorAll('.site-content-hidden');
-    const mainContent = document.getElementById('main');
+    // Seleccionamos todos los enlaces/botones que tienen "data-target"
+    const navLinks = document.querySelectorAll('[data-target]');
+    // Seleccionamos todas las secciones de contenido
+    const sections = document.querySelectorAll('.view-section');
 
-    // Función para entrar al portfolio
-    function enterPortfolio() {
-        // Ocultar portada
-        landingHero.classList.add('hidden');
+    function navigateTo(targetId) {
+        // 1. Ocultar todas las secciones
+        sections.forEach(sec => {
+            sec.classList.remove('active-view');
+        });
         
-        // Mostrar cabecera, main y footer
-        hiddenElements.forEach(el => {
-            el.classList.remove('site-content-hidden');
-            el.classList.add('content-visible');
+        // 2. Mostrar solo la sección seleccionada
+        const targetSection = document.getElementById(targetId);
+        if(targetSection) {
+            targetSection.classList.add('active-view');
+        }
+
+        // 3. Resaltar el enlace activo en el menú superior
+        document.querySelectorAll('.top-nav a').forEach(link => {
+            link.classList.remove('active-link');
+            if(link.getAttribute('data-target') === targetId) {
+                link.classList.add('active-link');
+            }
         });
 
-        // Asegurar que scroll vuelve arriba al entrar
+        // 4. Volver al principio de la página al cambiar de sección
         window.scrollTo(0, 0);
     }
 
-    startBtn.addEventListener('click', enterPortfolio);
-
-    // 2. Lógica del Menú Lateral Desplegable (Sidebar)
-    const menuButton = document.querySelector('.menu-button');
-    const siteNav = document.getElementById('site-nav');
-    const navLinks = document.querySelectorAll('.site-nav a');
-
-    // Crear overlay de fondo
-    const overlay = document.createElement('div');
-    overlay.classList.add('body-overlay');
-    document.body.appendChild(overlay);
-
-    function toggleMenu() {
-        siteNav.classList.toggle('is-open');
-        menuButton.classList.toggle('is-active');
-        overlay.classList.toggle('is-visible');
-    }
-
-    menuButton.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', toggleMenu);
-
-    // Cerrar menú al hacer clic en un enlace
+    // Le ponemos la "oreja" a cada botón para detectar el clic
     navLinks.forEach(link => {
-        link.addEventListener('click', toggleMenu);
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Evitamos que la web salte o recargue
+            const target = link.getAttribute('data-target');
+            navigateTo(target);
+        });
     });
 });
