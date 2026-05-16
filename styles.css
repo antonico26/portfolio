@@ -1,137 +1,92 @@
-/* --- VARIABLES Y RESET --- */
 :root {
     --bg-dark: #0d0d0d;
-    --bg-card: #1a1a1a;
+    --bg-card: rgba(26, 26, 26, 0.85);
     --text-main: #f4f4f4;
-    --text-muted: #a0a0a0;
-    --accent: #d4af37; /* Oro suave cinematográfico */
+    --text-muted: #cccccc;
+    --accent: #d4af37; 
     --font-titles: 'Playfair Display', serif;
     --font-body: 'Montserrat', sans-serif;
-    --header-height: 80px;
-    --sidebar-width: 280px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
 
 body {
     background-color: var(--bg-dark);
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Mantiene el fondo quieto */
     color: var(--text-main);
     font-family: var(--font-body);
     font-weight: 300;
     line-height: 1.6;
-    overflow-x: hidden;
 }
 
-/* --- ESTILOS DE TEXTO GLOBALES --- */
-h1, h2, h3, .brand { font-family: var(--font-titles); font-weight: 700; }
-h1 { font-size: 4rem; text-transform: uppercase; letter-spacing: 4px; color: white; margin-bottom: 1rem; }
-h2 { font-size: 2rem; color: var(--accent); margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
-h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
-p { margin-bottom: 1rem; color: var(--text-muted); }
-ul { list-style: none; margin-bottom: 1.5rem; }
-li { margin-bottom: 0.5rem; }
-a { text-decoration: none; color: var(--accent); transition: color 0.3s; }
-a:hover { color: #fff; }
-
-/* --- BOTONES PREMIUM --- */
-.btn-primary, .btn-secondary {
-    display: inline-block; padding: 12px 24px;
-    font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 2px;
-    border: 2px solid var(--accent); color: var(--accent);
-    background: transparent; cursor: pointer;
-    transition: all 0.3s; margin-top: 1rem;
-}
-.btn-primary:hover, .btn-secondary:hover { background-color: var(--accent); color: #000; }
-.btn-text { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-.btn-text:hover { color: #fff; }
-
-/* --- 1. PORTADA A PANTALLA COMPLETA (Hero) --- */
-#landing-hero {
-    height: 100vh; width: 100%;
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('background.jpg');
-    background-size: cover; background-position: center;
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    position: fixed; top: 0; left: 0; z-index: 100;
-    transition: transform 0.8s ease-in-out, opacity 0.8s;
-}
-
-#landing-hero.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-
-.hero-content { padding: 2rem; }
-.hero-content h2 { border: none; color: #fff; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; font-family: var(--font-body); font-weight: 300; }
-
-/* --- OCULTAR CONTENIDO INICIALMENTE --- */
-.site-content-hidden { display: none !important; }
-.content-visible { display: block !important; }
-
-/* --- 2. CABECERA Y MENÚ BOTÓN --- */
+/* --- MENÚ SUPERIOR --- */
 .site-header {
-    position: fixed; top: 0; width: 100%; height: var(--header-height);
     background: rgba(13, 13, 13, 0.95);
-    backdrop-filter: blur(5px);
-    z-index: 90; display: flex; align-items: center;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
 }
-.header-container { width: 90%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-.brand { font-size: 1.8rem; color: #fff; letter-spacing: 2px; }
-
-.menu-button {
-    background: transparent; border: none; cursor: pointer;
-    width: 40px; height: 30px; display: flex; flex-direction: column; justify-content: space-between; z-index: 2001;
+.header-container {
+    width: 90%; max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
 }
-.menu-bar { display: block; width: 100%; height: 2px; background-color: var(--accent); transition: all 0.3s; }
+.brand { font-family: var(--font-titles); font-size: 1.5rem; color: #fff; text-decoration: none; font-weight: bold; letter-spacing: 2px;}
+.top-nav { display: flex; gap: 1.5rem; flex-wrap: wrap;}
+.top-nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; transition: color 0.3s;}
+.top-nav a:hover, .top-nav a.active-link { color: var(--accent); }
 
-/* Efecto hamburguesa activa */
-.menu-button.is-active .menu-bar:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
-.menu-button.is-active .menu-bar:nth-child(2) { opacity: 0; }
-.menu-button.is-active .menu-bar:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+/* --- CONTENEDOR PRINCIPAL --- */
+main { width: 90%; max-width: 1000px; margin: 3rem auto; min-height: 80vh; }
 
-/* --- 3. MENÚ LATERAL (Sidebar Drawer) --- */
-.site-nav {
-    position: fixed; top: 0; right: calc(var(--sidebar-width) * -1); /* Oculto a la derecha */
-    width: var(--sidebar-width); height: 100vh;
-    background-color: var(--bg-card); z-index: 2000;
-    padding-top: calc(var(--header-height) + 2rem);
-    display: flex; flex-direction: column;
-    transition: right 0.4s ease-out;
-    border-left: 1px solid #333;
+/* Ocultar secciones por defecto, solo mostrar la activa */
+.view-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+.view-section.active-view { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- ESTILOS DE TEXTO --- */
+h1 { font-family: var(--font-titles); font-size: 3.5rem; text-transform: uppercase; margin-bottom: 0.5rem;}
+h2 { font-family: var(--font-body); font-size: 1.2rem; color: var(--accent); margin-bottom: 1.5rem; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;}
+.section-title { font-family: var(--font-titles); font-size: 2.5rem; border-bottom: 1px solid #444; padding-bottom: 0.5rem; color: #fff;}
+p { margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1.05rem; }
+
+/* Cajas de contenido con fondo translúcido para leer mejor */
+.content-box { background: var(--bg-card); padding: 3rem; border-radius: 8px; border: 1px solid #333; backdrop-filter: blur(5px);}
+
+/* --- LOS CUADRADITOS (GRID MENU) --- */
+.grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 3rem;}
+.grid-card {
+    background: var(--bg-card); border: 1px solid #444; border-radius: 8px;
+    padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-.site-nav.is-open { right: 0; /* Slide in */ }
-.site-nav a {
-    color: var(--text-main); font-family: var(--font-body); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;
-    padding: 1.2rem 2rem; border-bottom: 1px solid #222;
+.grid-card h3 { font-family: var(--font-titles); font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem; }
+.grid-card p { font-size: 0.85rem; margin: 0; color: var(--accent); }
+.grid-card:hover { transform: translateY(-5px); border-color: var(--accent); background: rgba(26, 26, 26, 1); }
+
+/* --- BOTONES Y ENLACES --- */
+.btn-primary, .btn-secondary {
+    display: inline-block; padding: 12px 24px; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;
+    border: 1px solid var(--accent); color: var(--accent); text-decoration: none; border-radius: 4px; transition: all 0.3s; margin-top: 1rem; margin-right: 1rem;
 }
-.site-nav a:hover { background-color: rgba(212, 175, 55, 0.1); color: var(--accent); }
+.btn-primary:hover, .btn-secondary:hover { background: var(--accent); color: #000; }
+.project-card { margin-bottom: 2.5rem; border-bottom: 1px dashed #444; padding-bottom: 2rem;}
+.stories-list { list-style: none; }
+.stories-list li { margin-bottom: 1.5rem; }
+.contact-grid p { margin-bottom: 1rem;}
+.contact-grid a { color: var(--accent); text-decoration: none;}
+.contact-grid a:hover { color: #fff;}
 
-/* --- Ovelay de fondo al abrir menú --- */
-.body-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    background: rgba(0,0,0,0.7); z-index: 1500;
-    opacity: 0; pointer-events: none; transition: opacity 0.4s;
-}
-.body-overlay.is-visible { opacity: 1; pointer-events: auto; }
-
-/* --- 4. CONTENIDO PRINCIPAL --- */
-main {
-    margin-top: var(--header-height); padding: 4rem 10%;
-    width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto;
-}
-.content-section { margin-bottom: 5rem; padding-top: 2rem; }
-
-/* Tarjetas de Proyecto Premium */
-.project-card { background-color: var(--bg-card); padding: 2rem; margin-bottom: 2rem; border: 1px solid #222; transition: transform 0.3s; }
-.project-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-
-/* --- 5. PIE DE PÁGINA --- */
-.site-footer { text-align: center; padding: 3rem; border-top: 1px solid #222; }
-.site-footer a { display: block; margin-bottom: 1rem; color: var(--text-muted); }
-
-/* --- MEDIA QUERIES (Móvil) --- */
+/* Adaptación a móviles */
 @media (max-width: 768px) {
-    h1 { font-size: 2.5rem; letter-spacing: 2px; }
-    main { padding: 3rem 5%; }
-    .hero-content h2 { font-size: 1rem; }
+    h1 { font-size: 2.5rem; }
+    .top-nav { justify-content: center; gap: 1rem; }
+    .content-box { padding: 1.5rem; }
 }
