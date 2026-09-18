@@ -36,4 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
             navigateTo(target);
         });
     });
-});
+// --- EFECTO SCROLL REVEAL (Aparición fluida de proyectos) ---
+    const observerOptions = {
+        threshold: 0.15 // Se activa cuando el 15% del elemento asoma por abajo
+    };
+
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                currentObserver.unobserve(entry.target); // Para que la animación solo ocurra una vez
+            }
+        });
+    }, observerOptions);
+
+    // Seleccionamos todas las tarjetas de proyecto para que el observador las vigile
+    document.querySelectorAll('.project-card').forEach(card => {
+        observer.observe(card);
+    });
+    });
